@@ -49,7 +49,7 @@ const PROJECTS = [
     tag: 'Producto propio',
     tagColor: '#3b82f6',
     year: '2026',
-    desc: 'Sistema de gestión de soporte y tickets. Backend en Python, PostgreSQL, autenticación, WebSockets y despliegue en AWS. Un producto real con ciclo completo de desarrollo — no un ejercicio.',
+    desc: 'Sistema de gestión de soporte y tickets. Backend en Python, PostgreSQL, autenticación, WebSockets y despliegue en AWS.',
     stack: ['React', 'Python', 'PostgreSQL', 'WebSockets', 'AWS'],
     demo: null,
     github: null,
