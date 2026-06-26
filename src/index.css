@@ -290,6 +290,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .project-link--accent:hover {
   color: var(--accent); border-color: rgba(232,98,42,.4); background: rgba(232,98,42,.06);
 }
+.project-link--private {
+  color: var(--text-3); border-color: var(--border);
+  cursor: default; font-size: 12px;
+}
 .project-card__desc {
   font-size: 15px; color: var(--text-2);
   line-height: 1.72; max-width: 660px; margin-bottom: 20px;

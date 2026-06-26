@@ -46,13 +46,14 @@ const PROJECTS = [
   {
     id: '03',
     name: 'Ticksy',
-    tag: 'Gestión de soporte',
+    tag: 'Producto propio',
     tagColor: '#3b82f6',
     year: '2026',
-    desc: 'Sistema de tickets con backend en Python, base de datos PostgreSQL, autenticación y notificaciones en tiempo real con WebSockets. Ciclo completo de un producto en producción.',
+    desc: 'Sistema de gestión de soporte y tickets. Backend en Python, PostgreSQL, autenticación, WebSockets y despliegue en AWS. Ciclo completo de desarrollo. No es un proyecto de portafolio — es mi próximo negocio.',
     stack: ['React', 'Python', 'PostgreSQL', 'WebSockets', 'AWS'],
     demo: null,
     github: null,
+    private: true,
     wip: true,
   },
 ];
@@ -236,6 +237,9 @@ function ProjectCard({ project: p, index }) {
             {p.github && (
               <a href={p.github} target="_blank" rel="noopener noreferrer"
                 className="project-link">GitHub ↗</a>
+            )}
+            {p.private && (
+              <span className="project-link project-link--private">🔒 Repo privado</span>
             )}
           </div>
         </div>
