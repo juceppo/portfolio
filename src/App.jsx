@@ -320,6 +320,8 @@ function Footer() {
             juanpabloceballosgonzalez@gmail.com
           </a>
           <div className="footer__social">
+            <a href="https://wa.me/573113014701" target="_blank" rel="noopener noreferrer"
+              className="footer__social-link footer__social-link--wa">WhatsApp ↗</a>
             <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer"
               className="footer__social-link">GitHub ↗</a>
             <a href="https://linkedin.com/in/juanpabloceballosgonzalez" target="_blank" rel="noopener noreferrer"
