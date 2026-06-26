@@ -283,14 +283,20 @@ function About() {
           <h2 className="section-eyebrow">Sobre mí</h2>
           <div className="about__text">
             <p className="about__para">
-              Tengo 22 años, soy de Colombia y programar no es solo mi trabajo —
-              es lo que hago cuando no tengo nada más que hacer.
-              Me enganché con esto y nunca lo solté.
+              Tengo 22 años y soy de Colombia. Programar no es solo mi trabajo —
+              es algo que disfruto hacer incluso en mi tiempo libre. Descubrí el
+              desarrollo de software hace varios años, me apasionó desde el principio
+              y desde entonces no he dejado de aprender.
             </p>
             <p className="about__para">
-              Me muevo en el ciclo completo: interfaces en React, backends en Python,
-              bases de datos, automatizaciones con IA, ETLs y despliegue en AWS.
-              Me gusta entender todo el sistema, no solo una parte.
+              Me gusta trabajar en todo el ciclo: interfaces con React, APIs y
+              servicios con Python, bases de datos, automatizaciones con IA,
+              ETLs y despliegue en AWS.
+            </p>
+            <p className="about__para">
+              Más que quedarme en una sola capa, me interesa entender cómo funciona
+              el sistema completo — desde lo que ve el usuario hasta la infraestructura
+              que lo mantiene corriendo.
             </p>
           </div>
         </div>
