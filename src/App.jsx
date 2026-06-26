@@ -7,8 +7,8 @@ const PROJECTS = [
     tag: 'Finanzas personales',
     tagColor: '#e8622a',
     year: '2025',
-    desc: 'Dashboard para rastrear ingresos, gastos y metas de ahorro. Categorías con colores, gráficas interactivas, modo oscuro, 8 monedas y exportación CSV. Tests con Vitest.',
-    stack: ['React', 'Recharts', 'localStorage', 'Vitest', 'Vite'],
+    desc: 'Dashboard para controlar ingresos, gastos y metas de ahorro. Tiene modo negocio con registro de ventas, control de inventario y gráficas de tendencia. Funciona con 8 monedas y exporta CSV compatible con Excel.',
+    stack: ['React', 'Recharts', 'Vite', 'Vitest'],
     demo: 'https://finance-dashboard-alpha-three-26.vercel.app',
     github: 'https://github.com/juceppo/flujo',
     wip: false,
@@ -16,11 +16,11 @@ const PROJECTS = [
   {
     id: '02',
     name: 'CineVault',
-    tag: 'Catálogo de cine',
+    tag: 'Catálogo de películas',
     tagColor: '#f59e0b',
     year: '2025',
-    desc: 'Catálogo de películas conectado a la API de TMDB. Búsqueda por título y género, trailers embebidos de YouTube, plataformas de streaming disponibles y recomendaciones basadas en tus favoritos.',
-    stack: ['React', 'TMDB API', 'React Router', 'Vitest', 'Vite'],
+    desc: 'Catálogo conectado a la API de TMDB. Puedes marcar películas como vistas, en watchlist o abandonadas, darles estrellas y escribir tu propia reseña. Tiene un selector de estado de ánimo que recomienda según cómo estás.',
+    stack: ['React', 'TMDB API', 'React Router', 'Vitest'],
     demo: 'https://movie-catalog-one-gold.vercel.app',
     github: 'https://github.com/juceppo/cinevault',
     wip: false,
@@ -31,8 +31,8 @@ const PROJECTS = [
     tag: 'Gestión de soporte',
     tagColor: '#3b82f6',
     year: '2026',
-    desc: 'Sistema de tickets y soporte técnico para equipos pequeños. Backend en Node.js con autenticación, base de datos relacional, panel de administración y notificaciones en tiempo real.',
-    stack: ['React', 'Node.js', 'PostgreSQL', 'Express', 'WebSockets'],
+    desc: 'Sistema de tickets para equipos pequeños. Lo empecé para aprender backend real: autenticación, base de datos relacional, notificaciones. Todavía en construcción.',
+    stack: ['React', 'Python', 'PostgreSQL', 'WebSockets'],
     demo: null,
     github: null,
     wip: true,
@@ -40,18 +40,9 @@ const PROJECTS = [
 ];
 
 const STACK = [
-  {
-    cat: 'Frontend',
-    items: ['React', 'JavaScript (ES2024)', 'HTML & CSS', 'Recharts', 'React Router'],
-  },
-  {
-    cat: 'Backend',
-    items: ['Node.js', 'Express', 'REST APIs', 'SQL / PostgreSQL'],
-  },
-  {
-    cat: 'Herramientas',
-    items: ['Git & GitHub', 'Vercel', 'Vitest', 'Vite', 'Figma'],
-  },
+  { cat: 'Frontend',     items: ['React', 'JavaScript', 'HTML & CSS', 'Recharts', 'React Router'] },
+  { cat: 'Backend',      items: ['Python', 'Node.js', 'REST APIs', 'SQL / PostgreSQL'] },
+  { cat: 'Herramientas', items: ['Git & GitHub', 'Vercel', 'Vitest', 'Vite'] },
 ];
 
 export default function App() {
@@ -71,13 +62,13 @@ function Nav() {
   return (
     <nav className="nav">
       <div className="nav__inner">
-        <a href="#" className="nav__name">JP Ceballos</a>
+        <a href="#" className="nav__name">Juan Pablo Ceballos</a>
         <div className="nav__links">
           <a href="#projects" className="nav__link">Proyectos</a>
-          <a href="#stack" className="nav__link">Stack</a>
-          <a href="#about" className="nav__link">Sobre mí</a>
+          <a href="#stack"    className="nav__link">Stack</a>
+          <a href="#about"    className="nav__link">Sobre mí</a>
           <a href="mailto:juanpabloceballosgonzalez@gmail.com" className="nav__cta">
-            Contacto →
+            Escribeme →
           </a>
         </div>
       </div>
@@ -90,53 +81,51 @@ function Hero() {
     <section className="hero">
       <div className="container">
         <div className="hero__content">
-          <span className="hero__badge">
-            <span className="hero__badge-dot" />
-            Disponible para trabajar
-          </span>
 
-          <h1 className="hero__headline">
-            Construyo cosas<br />
-            en la <em>web.</em>
+          <div className="hero__available">
+            <span className="hero__dot" />
+            Disponible para trabajar — Colombia
+          </div>
+
+          <h1 className="hero__name">
+            Juan Pablo<br />
+            <span className="hero__name-last">Ceballos.</span>
           </h1>
 
-          <p className="hero__sub">
-            Soy Juan Pablo Ceballos, desarrollador con foco en React y JavaScript.
-            Cada proyecto tiene que funcionar bien, verse mejor y tener
-            código del que no me avergüence mostrar.
+          <div className="hero__divider" />
+
+          <p className="hero__role">Desarrollador de software</p>
+
+          <p className="hero__bio">
+            Construyo interfaces y automatizaciones que resuelven cosas concretas.
+            Me enfoco en React para el frontend y Python para la lógica de negocio.
+            Los proyectos que publico los terminé de verdad — no viven solo en mi localhost.
           </p>
 
           <div className="hero__actions">
-            <a href="#projects" className="btn-primary">
-              Ver proyectos →
-            </a>
-            <a
-              href="https://github.com/juceppo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost"
-            >
+            <a href="#projects" className="btn-primary">Ver proyectos</a>
+            <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer" className="btn-ghost">
               GitHub ↗
             </a>
           </div>
+        </div>
 
-          <div className="hero__meta">
-            <div className="hero__meta-item">
-              <span className="hero__meta-label">Ubicación</span>
-              <span className="hero__meta-value">Colombia</span>
-            </div>
-            <div className="hero__meta-item">
-              <span className="hero__meta-label">Disponibilidad</span>
-              <span className="hero__meta-value hero__meta-value--green">Inmediata</span>
-            </div>
-            <div className="hero__meta-item">
-              <span className="hero__meta-label">Modalidad</span>
-              <span className="hero__meta-value">Remoto · Presencial</span>
-            </div>
-            <div className="hero__meta-item">
-              <span className="hero__meta-label">Enfoque</span>
-              <span className="hero__meta-value">Full Stack</span>
-            </div>
+        <div className="hero__aside">
+          <div className="hero__aside-block">
+            <p className="hero__aside-label">Enfoque</p>
+            <p className="hero__aside-value">Full Stack</p>
+          </div>
+          <div className="hero__aside-block">
+            <p className="hero__aside-label">Modalidad</p>
+            <p className="hero__aside-value">Remoto · Presencial</p>
+          </div>
+          <div className="hero__aside-block">
+            <p className="hero__aside-label">Ahora mismo</p>
+            <p className="hero__aside-value hero__aside-value--accent">Buscando primer empleo</p>
+          </div>
+          <div className="hero__aside-block">
+            <p className="hero__aside-label">Construyendo</p>
+            <p className="hero__aside-value">Ticksy — backend con Python</p>
           </div>
         </div>
       </div>
@@ -148,14 +137,9 @@ function Projects() {
   return (
     <section className="projects" id="projects">
       <div className="container">
-        <div className="section-header">
-          <span className="section-label">Proyectos</span>
-          <h2 className="section-title">Trabajo seleccionado</h2>
-        </div>
+        <h2 className="section-eyebrow">Proyectos</h2>
         <div className="projects-list">
-          {PROJECTS.map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
+          {PROJECTS.map((p) => <ProjectCard key={p.id} project={p} />)}
         </div>
       </div>
     </section>
@@ -168,11 +152,9 @@ function ProjectCard({ project: p }) {
     borderColor: p.tagColor + '40',
     background: p.tagColor + '12',
   };
-
   return (
     <article className="project-card">
       <div className="project-card__num">{p.id}</div>
-
       <div className="project-card__body">
         <div className="project-card__top">
           <div className="project-card__meta">
@@ -183,37 +165,20 @@ function ProjectCard({ project: p }) {
             </div>
             <h3 className="project-card__name">{p.name}</h3>
           </div>
-
           <div className="project-card__links">
             {p.demo && (
-              <a
-                href={p.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-link project-link--accent"
-              >
-                Demo ↗
-              </a>
+              <a href={p.demo} target="_blank" rel="noopener noreferrer"
+                className="project-link project-link--accent">Demo ↗</a>
             )}
             {p.github && (
-              <a
-                href={p.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-link"
-              >
-                GitHub ↗
-              </a>
+              <a href={p.github} target="_blank" rel="noopener noreferrer"
+                className="project-link">GitHub ↗</a>
             )}
           </div>
         </div>
-
         <p className="project-card__desc">{p.desc}</p>
-
         <div className="project-card__stack">
-          {p.stack.map((s) => (
-            <span key={s} className="stack-pill">{s}</span>
-          ))}
+          {p.stack.map((s) => <span key={s} className="stack-pill">{s}</span>)}
         </div>
       </div>
     </article>
@@ -224,10 +189,7 @@ function StackSection() {
   return (
     <section className="stack-section" id="stack">
       <div className="container">
-        <div className="section-header">
-          <span className="section-label">Tecnologías</span>
-          <h2 className="section-title">Con qué trabajo</h2>
-        </div>
+        <h2 className="section-eyebrow">Stack</h2>
         <div className="stack-grid">
           {STACK.map((col) => (
             <div key={col.cat} className="stack-col">
@@ -250,24 +212,22 @@ function About() {
     <section className="about" id="about">
       <div className="container">
         <div className="about__inner">
-          <div className="section-header">
-            <span className="section-label">Sobre mí</span>
-            <h2 className="section-title">Juan Pablo Ceballos</h2>
-          </div>
+          <h2 className="section-eyebrow">Sobre mí</h2>
           <div className="about__text">
             <p className="about__para">
-              Soy desarrollador de software en Colombia con foco en construir
-              interfaces que tengan <strong>buena UX, código limpio y funcionen
-              de verdad</strong> — no solo en demos.
+              Tengo 22 años y vivo en Colombia. Empecé a programar hace un par de años
+              y desde entonces no paré. Lo que me engancha no es el código en sí, sino
+              ver que algo que construí lo usa alguien real.
             </p>
             <p className="about__para">
-              Me interesa el producto tanto como la tecnología. Antes de escribir
-              código me gusta entender qué problema resuelve y para quién.
-              Eso cambia completamente cómo se construye.
+              Trabajo bien con el frontend — React, CSS, esas cosas. Pero me interesa
+              el backend igual. Estoy aprendiendo Python en serio: automatizaciones,
+              integraciones con APIs, algo de procesamiento de datos.
             </p>
             <p className="about__para">
-              Actualmente en búsqueda de mi primera experiencia profesional.
-              Disponible para <strong>roles remotos o presenciales en Colombia</strong>.
+              Busco mi primer trabajo. No espero que sea perfecto, espero que me enseñe.
+              Si construyes algo interesante y necesitas a alguien que aprende rápido
+              y entrega sin excusas — hablemos.
             </p>
           </div>
         </div>
@@ -282,38 +242,22 @@ function Footer() {
       <div className="container">
         <div className="footer__cta">
           <h2 className="footer__headline">
-            ¿Tienes un<br /><span>proyecto?</span>
+            ¿Tienes algo<br />
+            en que trabajar?
           </h2>
-          <p className="footer__sub">Hablemos.</p>
-          <a
-            href="mailto:juanpabloceballosgonzalez@gmail.com"
-            className="footer__email"
-          >
+          <a href="mailto:juanpabloceballosgonzalez@gmail.com" className="footer__email">
             juanpabloceballosgonzalez@gmail.com
           </a>
           <div className="footer__social">
-            <a
-              href="https://github.com/juceppo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer__social-link"
-            >
-              GitHub ↗
-            </a>
-            <a
-              href="https://linkedin.com/in/juanpabloceballosgonzalez"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer__social-link"
-            >
-              LinkedIn ↗
-            </a>
+            <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer"
+              className="footer__social-link">GitHub ↗</a>
+            <a href="https://linkedin.com/in/juanpabloceballosgonzalez" target="_blank" rel="noopener noreferrer"
+              className="footer__social-link">LinkedIn ↗</a>
           </div>
         </div>
-
         <div className="footer__bottom">
-          <span>© 2025 Juan Pablo Ceballos González</span>
-          <span>Hecho con React + Vite · Desplegado en Vercel</span>
+          <span>© 2025 Juan Pablo Ceballos</span>
+          <span className="footer__made">Hecho con React · Colombia</span>
         </div>
       </div>
     </footer>
