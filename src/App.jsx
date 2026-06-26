@@ -42,7 +42,7 @@ const PROJECTS = [
     stack: ['Python', 'FastAPI', 'OpenAI API', 'SQLite', 'React'],
     demo:   'https://frontend-beige-two-78.vercel.app',
     github: 'https://github.com/juceppo/sage',
-    img:    null,
+    img:    '/sage.png',
     wip:    false, private: false,
   },
   {
