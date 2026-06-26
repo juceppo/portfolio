@@ -1,5 +1,23 @@
+import { useEffect, useRef } from 'react';
 import './index.css';
 
+// ── Scroll reveal hook ────────────────────────────────────────────
+function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add('is-visible'); obs.disconnect(); } },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
+// ── Data ─────────────────────────────────────────────────────────
 const PROJECTS = [
   {
     id: '01',
@@ -7,8 +25,8 @@ const PROJECTS = [
     tag: 'Finanzas personales',
     tagColor: '#e8622a',
     year: '2025',
-    desc: 'Dashboard para controlar ingresos, gastos y metas de ahorro. Tiene modo negocio con registro de ventas, control de inventario y gráficas de tendencia. Funciona con 8 monedas y exporta CSV compatible con Excel.',
-    stack: ['React', 'Recharts', 'Vite', 'Vitest'],
+    desc: 'Dashboard financiero con modo negocio. Registro de ventas con control de stock, gráficas de tendencia en tiempo real, meta diaria con ring SVG y exportación CSV con encoding correcto para Excel en español.',
+    stack: ['React', 'Recharts', 'localStorage', 'Vitest'],
     demo: 'https://finance-dashboard-alpha-three-26.vercel.app',
     github: 'https://github.com/juceppo/flujo',
     wip: false,
@@ -19,7 +37,7 @@ const PROJECTS = [
     tag: 'Catálogo de películas',
     tagColor: '#f59e0b',
     year: '2025',
-    desc: 'Catálogo conectado a la API de TMDB. Puedes marcar películas como vistas, en watchlist o abandonadas, darles estrellas y escribir tu propia reseña. Tiene un selector de estado de ánimo que recomienda según cómo estás.',
+    desc: 'Catálogo conectado a TMDB con sistema de estados (Quiero ver / Viendo / Vista), rating personal, reseñas y estadísticas propias. Incluye Mood Discovery: recomendaciones según cómo te sientes.',
     stack: ['React', 'TMDB API', 'React Router', 'Vitest'],
     demo: 'https://movie-catalog-one-gold.vercel.app',
     github: 'https://github.com/juceppo/cinevault',
@@ -31,8 +49,8 @@ const PROJECTS = [
     tag: 'Gestión de soporte',
     tagColor: '#3b82f6',
     year: '2026',
-    desc: 'Sistema de tickets para equipos pequeños. Lo empecé para aprender backend real: autenticación, base de datos relacional, notificaciones. Todavía en construcción.',
-    stack: ['React', 'Python', 'PostgreSQL', 'WebSockets'],
+    desc: 'Sistema de tickets con backend en Python, base de datos PostgreSQL, autenticación y notificaciones en tiempo real con WebSockets. Ciclo completo de un producto en producción.',
+    stack: ['React', 'Python', 'PostgreSQL', 'WebSockets', 'AWS'],
     demo: null,
     github: null,
     wip: true,
@@ -40,16 +58,37 @@ const PROJECTS = [
 ];
 
 const STACK = [
-  { cat: 'Frontend',     items: ['React', 'JavaScript', 'HTML & CSS', 'Recharts', 'React Router'] },
-  { cat: 'Backend',      items: ['Python', 'Node.js', 'REST APIs', 'SQL / PostgreSQL'] },
-  { cat: 'Herramientas', items: ['Git & GitHub', 'Vercel', 'Vitest', 'Vite'] },
+  {
+    cat: 'Frontend',
+    items: ['React', 'JavaScript', 'HTML & CSS', 'Recharts', 'React Router'],
+  },
+  {
+    cat: 'Backend',
+    items: ['Python', 'Node.js / Express', 'REST APIs', 'WebSockets'],
+  },
+  {
+    cat: 'Datos & IA',
+    items: ['PostgreSQL', 'MongoDB', 'ETL / Pipelines', 'OpenAI API', 'n8n'],
+  },
+  {
+    cat: 'Cloud & DevOps',
+    items: ['AWS', 'Docker', 'Vercel', 'Git & GitHub'],
+  },
 ];
 
+const TICKER_ITEMS = [
+  'React', 'Python', 'PostgreSQL', 'AWS', 'ETL', 'Node.js',
+  'MongoDB', 'Docker', 'n8n', 'OpenAI API', 'JavaScript', 'WebSockets',
+  'Redis', 'REST APIs', 'Vitest', 'React Router',
+];
+
+// ── App ───────────────────────────────────────────────────────────
 export default function App() {
   return (
     <div className="site">
       <Nav />
       <Hero />
+      <Ticker />
       <Projects />
       <StackSection />
       <About />
@@ -58,6 +97,7 @@ export default function App() {
   );
 }
 
+// ── Nav ───────────────────────────────────────────────────────────
 function Nav() {
   return (
     <nav className="nav">
@@ -76,33 +116,37 @@ function Nav() {
   );
 }
 
+// ── Hero ──────────────────────────────────────────────────────────
 function Hero() {
   return (
     <section className="hero">
       <div className="container">
         <div className="hero__content">
-
-          <div className="hero__available">
-            <span className="hero__dot" />
-            Disponible para trabajar — Colombia
-          </div>
-
-          <h1 className="hero__name">
-            Juan Pablo<br />
-            <span className="hero__name-last">Ceballos.</span>
-          </h1>
-
-          <div className="hero__divider" />
-
-          <p className="hero__role">Desarrollador de software</p>
-
-          <p className="hero__bio">
-            Construyo interfaces y automatizaciones que resuelven cosas concretas.
-            Me enfoco en React para el frontend y Python para la lógica de negocio.
-            Los proyectos que publico los terminé de verdad — no viven solo en mi localhost.
+          <p className="hero__location anim-fade" style={{ '--d': '0ms' }}>
+            Colombia
           </p>
 
-          <div className="hero__actions">
+          <h1 className="hero__name">
+            <span className="hero__reveal-wrap anim-up" style={{ '--d': '80ms' }}>
+              <span>Juan Pablo</span>
+            </span>
+            <span className="hero__reveal-wrap anim-up" style={{ '--d': '180ms' }}>
+              <span className="hero__name-accent">Ceballos.</span>
+            </span>
+          </h1>
+
+          <div className="hero__divider anim-fade" style={{ '--d': '300ms' }} />
+
+          <p className="hero__role anim-fade" style={{ '--d': '360ms' }}>
+            Desarrollador Full Stack
+          </p>
+
+          <p className="hero__bio anim-fade" style={{ '--d': '440ms' }}>
+            Construyo productos completos — interfaces en React, backends en Python,
+            automatizaciones con IA, ETLs y el ciclo entero de un sistema en producción.
+          </p>
+
+          <div className="hero__actions anim-fade" style={{ '--d': '520ms' }}>
             <a href="#projects" className="btn-primary">Ver proyectos</a>
             <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer" className="btn-ghost">
               GitHub ↗
@@ -110,9 +154,9 @@ function Hero() {
           </div>
         </div>
 
-        <div className="hero__aside">
+        <div className="hero__aside anim-fade" style={{ '--d': '300ms' }}>
           <div className="hero__aside-block">
-            <p className="hero__aside-label">Enfoque</p>
+            <p className="hero__aside-label">Área</p>
             <p className="hero__aside-value">Full Stack</p>
           </div>
           <div className="hero__aside-block">
@@ -121,11 +165,11 @@ function Hero() {
           </div>
           <div className="hero__aside-block">
             <p className="hero__aside-label">Ahora mismo</p>
-            <p className="hero__aside-value hero__aside-value--accent">Buscando primer empleo</p>
+            <p className="hero__aside-value">Ticksy — Python + PostgreSQL</p>
           </div>
           <div className="hero__aside-block">
-            <p className="hero__aside-label">Construyendo</p>
-            <p className="hero__aside-value">Ticksy — backend con Python</p>
+            <p className="hero__aside-label">También</p>
+            <p className="hero__aside-value">Automatizaciones con IA</p>
           </div>
         </div>
       </div>
@@ -133,27 +177,46 @@ function Hero() {
   );
 }
 
-function Projects() {
+// ── Ticker ────────────────────────────────────────────────────────
+function Ticker() {
+  const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
-    <section className="projects" id="projects">
+    <div className="ticker" aria-hidden="true">
+      <div className="ticker__track">
+        {items.map((item, i) => (
+          <span key={i} className="ticker__item">
+            {item} <span className="ticker__sep">·</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Projects ──────────────────────────────────────────────────────
+function Projects() {
+  const ref = useReveal();
+  return (
+    <section className="projects reveal" ref={ref} id="projects">
       <div className="container">
         <h2 className="section-eyebrow">Proyectos</h2>
         <div className="projects-list">
-          {PROJECTS.map((p) => <ProjectCard key={p.id} project={p} />)}
+          {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
         </div>
       </div>
     </section>
   );
 }
 
-function ProjectCard({ project: p }) {
+function ProjectCard({ project: p, index }) {
+  const ref = useReveal();
   const tagStyle = {
     color: p.tagColor,
     borderColor: p.tagColor + '40',
     background: p.tagColor + '12',
   };
   return (
-    <article className="project-card">
+    <article className="project-card reveal" ref={ref} style={{ '--reveal-delay': `${index * 100}ms` }}>
       <div className="project-card__num">{p.id}</div>
       <div className="project-card__body">
         <div className="project-card__top">
@@ -185,14 +248,17 @@ function ProjectCard({ project: p }) {
   );
 }
 
+// ── Stack ─────────────────────────────────────────────────────────
 function StackSection() {
+  const ref = useReveal();
   return (
-    <section className="stack-section" id="stack">
+    <section className="stack-section reveal" ref={ref} id="stack">
       <div className="container">
         <h2 className="section-eyebrow">Stack</h2>
         <div className="stack-grid">
-          {STACK.map((col) => (
-            <div key={col.cat} className="stack-col">
+          {STACK.map((col, i) => (
+            <div key={col.cat} className="stack-col reveal" ref={useReveal()}
+              style={{ '--reveal-delay': `${i * 80}ms` }}>
               <p className="stack-col__cat">{col.cat}</p>
               <ul className="stack-col__list">
                 {col.items.map((item) => (
@@ -207,27 +273,28 @@ function StackSection() {
   );
 }
 
+// ── About ─────────────────────────────────────────────────────────
 function About() {
+  const ref = useReveal();
   return (
-    <section className="about" id="about">
+    <section className="about reveal" ref={ref} id="about">
       <div className="container">
         <div className="about__inner">
           <h2 className="section-eyebrow">Sobre mí</h2>
           <div className="about__text">
             <p className="about__para">
-              Tengo 22 años y vivo en Colombia. Empecé a programar hace un par de años
-              y desde entonces no paré. Lo que me engancha no es el código en sí, sino
-              ver que algo que construí lo usa alguien real.
+              Trabajo en tecnología en Colombia. Me muevo en el ciclo completo de un
+              producto: interfaces en React, lógica de negocio en Python, bases de
+              datos relacionales y no relacionales, despliegue en AWS.
             </p>
             <p className="about__para">
-              Trabajo bien con el frontend — React, CSS, esas cosas. Pero me interesa
-              el backend igual. Estoy aprendiendo Python en serio: automatizaciones,
-              integraciones con APIs, algo de procesamiento de datos.
+              Una parte importante de lo que hago son automatizaciones — flujos que
+              conectan sistemas, procesan datos y usan IA donde tiene sentido.
+              ETLs, pipelines, integraciones con APIs externas.
             </p>
             <p className="about__para">
-              Busco mi primer trabajo. No espero que sea perfecto, espero que me enseñe.
-              Si construyes algo interesante y necesitas a alguien que aprende rápido
-              y entrega sin excusas — hablemos.
+              Me interesa construir cosas que funcionen en producción, no demos.
+              Si tienes algo en mente, hablemos.
             </p>
           </div>
         </div>
@@ -236,9 +303,11 @@ function About() {
   );
 }
 
+// ── Footer ────────────────────────────────────────────────────────
 function Footer() {
+  const ref = useReveal();
   return (
-    <footer className="footer" id="contact">
+    <footer className="footer reveal" ref={ref} id="contact">
       <div className="container">
         <div className="footer__cta">
           <h2 className="footer__headline">
@@ -257,7 +326,7 @@ function Footer() {
         </div>
         <div className="footer__bottom">
           <span>© 2025 Juan Pablo Ceballos</span>
-          <span className="footer__made">Hecho con React · Colombia</span>
+          <span className="footer__made">Colombia</span>
         </div>
       </div>
     </footer>
