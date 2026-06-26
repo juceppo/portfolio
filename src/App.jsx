@@ -293,8 +293,8 @@ function About() {
               ETLs, pipelines, integraciones con APIs externas.
             </p>
             <p className="about__para">
-              Me interesa construir cosas que funcionen en producción, no demos.
-              Si tienes algo en mente, hablemos.
+              Tengo 22 años. Lo que más me gusta de esto es cuando
+              lo que construí lo termina usando alguien de verdad.
             </p>
           </div>
         </div>
