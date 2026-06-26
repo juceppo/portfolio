@@ -1,14 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './index.css';
 
-function useReveal() {
+// ── Scroll reveal ─────────────────────────────────────────────────
+function useReveal(threshold = 0.08) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { el.classList.add('is-visible'); obs.disconnect(); } },
-      { threshold: 0.08 }
+      { threshold }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -16,21 +17,38 @@ function useReveal() {
   return ref;
 }
 
+// ── Scroll progress ───────────────────────────────────────────────
+function useScrollProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const el  = document.documentElement;
+      const top = el.scrollTop || document.body.scrollTop;
+      const h   = el.scrollHeight - el.clientHeight;
+      setPct(h > 0 ? (top / h) * 100 : 0);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return pct;
+}
+
+// ── Data ──────────────────────────────────────────────────────────
 const PROJECTS = [
   {
     id: '01',
     name: 'Flujo',
     desc: 'Dashboard financiero con modo negocio, control de inventario, gráficas de tendencia en tiempo real y exportación CSV.',
     stack: ['React', 'Recharts', 'Vitest'],
-    demo: 'https://finance-dashboard-alpha-three-26.vercel.app',
+    demo:   'https://finance-dashboard-alpha-three-26.vercel.app',
     github: 'https://github.com/juceppo/flujo',
   },
   {
     id: '02',
     name: 'CineVault',
-    desc: 'Catálogo de películas con sistema de estados, rating personal, reseñas propias y recomendaciones por estado de ánimo.',
+    desc: 'Catálogo de películas con sistema de estados, rating personal, reseñas y recomendaciones por estado de ánimo.',
     stack: ['React', 'TMDB API', 'React Router'],
-    demo: 'https://movie-catalog-one-gold.vercel.app',
+    demo:   'https://movie-catalog-one-gold.vercel.app',
     github: 'https://github.com/juceppo/cinevault',
   },
   {
@@ -38,25 +56,34 @@ const PROJECTS = [
     name: 'Ticksy',
     desc: 'Sistema de gestión de soporte y tickets con autenticación, notificaciones en tiempo real y despliegue en AWS.',
     stack: ['React', 'Python', 'PostgreSQL', 'WebSockets', 'AWS'],
-    demo: null,
-    github: null,
-    private: true,
-    wip: true,
+    demo: null, github: null, private: true, wip: true,
   },
 ];
 
+const STACK = [
+  { cat: 'Frontend',     items: ['React', 'JavaScript', 'HTML & CSS', 'Recharts', 'React Router'] },
+  { cat: 'Backend',      items: ['Python', 'Node.js', 'REST APIs', 'WebSockets'] },
+  { cat: 'Datos & IA',   items: ['PostgreSQL', 'MongoDB', 'ETL / Pipelines', 'OpenAI API', 'n8n'] },
+  { cat: 'Cloud',        items: ['AWS', 'Docker', 'Vercel', 'Git & GitHub'] },
+];
+
+// ── App ───────────────────────────────────────────────────────────
 export default function App() {
+  const pct = useScrollProgress();
   return (
     <div className="site">
+      <div className="scroll-bar" style={{ width: `${pct}%` }} />
       <Nav />
       <Hero />
       <Work />
+      <StackSection />
       <About />
       <Footer />
     </div>
   );
 }
 
+// ── Nav ───────────────────────────────────────────────────────────
 function Nav() {
   return (
     <nav className="nav">
@@ -64,6 +91,7 @@ function Nav() {
         <a href="#" className="nav__logo">JPC</a>
         <div className="nav__links">
           <a href="#work"  className="nav__link">Trabajo</a>
+          <a href="#stack" className="nav__link">Stack</a>
           <a href="#about" className="nav__link">Sobre mí</a>
           <a href="mailto:juanpabloceballosgonzalez@gmail.com" className="nav__cta">Contacto</a>
         </div>
@@ -72,33 +100,40 @@ function Nav() {
   );
 }
 
+// ── Hero ──────────────────────────────────────────────────────────
 function Hero() {
   return (
     <section className="hero">
       <div className="container">
-        <p className="hero__location anim-fade" style={{ '--d': '0ms' }}>Colombia</p>
+        <p className="hero__location anim-fade" style={{ '--d': '0ms' }}>
+          Colombia
+        </p>
 
         <h1 className="hero__name">
-          <span className="hero__line anim-up" style={{ '--d': '60ms' }}>Juan Pablo</span>
-          <span className="hero__line anim-up hero__line--accent" style={{ '--d': '160ms' }}>Ceballos.</span>
+          <span className="hero__clip anim-clip" style={{ '--d': '80ms' }}>Juan Pablo</span>
+          <span className="hero__clip anim-clip hero__clip--accent" style={{ '--d': '200ms' }}>Ceballos.</span>
         </h1>
 
-        <p className="hero__role anim-fade" style={{ '--d': '280ms' }}>
+        <p className="hero__role anim-fade" style={{ '--d': '340ms' }}>
           Full Stack — React · Python · AWS
         </p>
 
-        <div className="hero__actions anim-fade" style={{ '--d': '360ms' }}>
+        <div className="hero__actions anim-fade" style={{ '--d': '440ms' }}>
           <a href="#work" className="btn-primary">Ver proyectos</a>
-          <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer" className="btn-ghost">GitHub ↗</a>
+          <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            GitHub ↗
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
+// ── Work ──────────────────────────────────────────────────────────
 function Work() {
+  const ref = useReveal();
   return (
-    <section className="work" id="work">
+    <section className="work reveal" ref={ref} id="work">
       <div className="container">
         <p className="label">Proyectos</p>
         <div className="work-list">
@@ -112,10 +147,10 @@ function Work() {
 function ProjectRow({ project: p, index }) {
   const ref = useReveal();
   return (
-    <article className="project-row reveal" ref={ref} style={{ '--delay': `${index * 80}ms` }}>
+    <article className="project-row reveal" ref={ref} style={{ '--delay': `${index * 100}ms` }}>
       <div className="project-row__left">
         <span className="project-row__num">{p.id}</span>
-        <div>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <div className="project-row__name-wrap">
             <h3 className="project-row__name">{p.name}</h3>
             {p.wip     && <span className="badge badge--blue">En construcción</span>}
@@ -135,6 +170,38 @@ function ProjectRow({ project: p, index }) {
   );
 }
 
+// ── Stack ─────────────────────────────────────────────────────────
+function StackSection() {
+  return (
+    <section className="stack-section" id="stack">
+      <div className="container">
+        <p className="label">Stack</p>
+        <div className="stack-grid">
+          {STACK.map((group, gi) => {
+            const ref = useReveal();
+            return (
+              <div key={group.cat} className="stack-group reveal" ref={ref}
+                style={{ '--delay': `${gi * 80}ms` }}>
+                <p className="stack-group__cat">{group.cat}</p>
+                <ul className="stack-group__list">
+                  {group.items.map((item, ii) => (
+                    <li key={item} className="stack-group__item anim-item"
+                      style={{ '--i': ii }}>
+                      <span className="stack-group__dot" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── About ─────────────────────────────────────────────────────────
 function About() {
   const ref = useReveal();
   return (
@@ -160,6 +227,7 @@ function About() {
   );
 }
 
+// ── Footer ────────────────────────────────────────────────────────
 function Footer() {
   const ref = useReveal();
   return (
@@ -170,9 +238,12 @@ function Footer() {
           juanpabloceballosgonzalez@gmail.com
         </a>
         <div className="footer__links">
-          <a href="https://wa.me/573113014701" target="_blank" rel="noopener noreferrer" className="footer__link footer__link--wa">WhatsApp</a>
-          <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer" className="footer__link">GitHub</a>
-          <a href="https://linkedin.com/in/juanpabloceballosgonzalez" target="_blank" rel="noopener noreferrer" className="footer__link">LinkedIn</a>
+          <a href="https://wa.me/573113014701" target="_blank" rel="noopener noreferrer"
+            className="footer__link footer__link--wa">WhatsApp</a>
+          <a href="https://github.com/juceppo" target="_blank" rel="noopener noreferrer"
+            className="footer__link">GitHub</a>
+          <a href="https://linkedin.com/in/juanpabloceballosgonzalez" target="_blank" rel="noopener noreferrer"
+            className="footer__link">LinkedIn</a>
         </div>
         <p className="footer__copy">© 2026 Juan Pablo Ceballos</p>
       </div>
