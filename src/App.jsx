@@ -283,14 +283,14 @@ function About() {
           <h2 className="section-eyebrow">Sobre mí</h2>
           <div className="about__text">
             <p className="about__para">
-              Trabajo en tecnología en Colombia. Me muevo en el ciclo completo de un
-              producto: interfaces en React, lógica de negocio en Python, bases de
-              datos relacionales y no relacionales, despliegue en AWS.
+              Tengo 22 años, soy de Colombia y programar no es solo mi trabajo —
+              es lo que hago cuando no tengo nada más que hacer.
+              Me enganché con esto y nunca lo solté.
             </p>
             <p className="about__para">
-              Una parte importante de lo que hago son automatizaciones — flujos que
-              conectan sistemas, procesan datos y usan IA donde tiene sentido.
-              ETLs, pipelines, integraciones con APIs externas.
+              Me muevo en el ciclo completo: interfaces en React, backends en Python,
+              bases de datos, automatizaciones con IA, ETLs y despliegue en AWS.
+              Me gusta entender todo el sistema, no solo una parte.
             </p>
           </div>
         </div>
