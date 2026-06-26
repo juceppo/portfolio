@@ -42,6 +42,7 @@ const PROJECTS = [
     stack: ['React', 'Recharts', 'Vitest'],
     demo:   'https://finance-dashboard-alpha-three-26.vercel.app',
     github: 'https://github.com/juceppo/flujo',
+    img:    '/flujo.png',
   },
   {
     id: '02',
@@ -50,6 +51,7 @@ const PROJECTS = [
     stack: ['React', 'TMDB API', 'React Router'],
     demo:   'https://movie-catalog-one-gold.vercel.app',
     github: 'https://github.com/juceppo/cinevault',
+    img:    '/cinevault.png',
   },
   {
     id: '03',
@@ -57,6 +59,7 @@ const PROJECTS = [
     desc: 'Sistema de gestión de soporte y tickets con autenticación, notificaciones en tiempo real y despliegue en AWS.',
     stack: ['React', 'Python', 'PostgreSQL', 'WebSockets', 'AWS'],
     demo: null, github: null, private: true, wip: true,
+    img: null,
   },
 ];
 
@@ -147,24 +150,38 @@ function Work() {
 function ProjectRow({ project: p, index }) {
   const ref = useReveal();
   return (
-    <article className="project-row reveal" ref={ref} style={{ '--delay': `${index * 100}ms` }}>
-      <div className="project-row__left">
-        <span className="project-row__num">{p.id}</span>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div className="project-row__name-wrap">
-            <h3 className="project-row__name">{p.name}</h3>
-            {p.wip     && <span className="badge badge--blue">En construcción</span>}
-            {p.private && <span className="badge badge--dim">🔒 Privado</span>}
+    <article className="project-row" ref={ref} style={{ '--delay': `${index * 120}ms` }}>
+      {/* Screenshot */}
+      {p.img && (
+        <a href={p.demo || '#'} target="_blank" rel="noopener noreferrer"
+          className="project-row__img-wrap">
+          <img src={p.img} alt={`${p.name} screenshot`} className="project-row__img" loading="lazy" />
+          <div className="project-row__img-overlay">
+            <span className="project-row__img-label">Ver proyecto ↗</span>
           </div>
-          <p className="project-row__desc">{p.desc}</p>
-          <div className="project-row__stack">
-            {p.stack.map(s => <span key={s} className="pill">{s}</span>)}
+        </a>
+      )}
+
+      {/* Info */}
+      <div className="project-row__body">
+        <div className="project-row__top">
+          <div>
+            <div className="project-row__name-wrap">
+              <span className="project-row__num">{p.id}</span>
+              <h3 className="project-row__name">{p.name}</h3>
+              {p.wip     && <span className="badge badge--blue">En construcción</span>}
+              {p.private && <span className="badge badge--dim">🔒 Privado</span>}
+            </div>
+            <p className="project-row__desc">{p.desc}</p>
+            <div className="project-row__stack">
+              {p.stack.map(s => <span key={s} className="pill">{s}</span>)}
+            </div>
+          </div>
+          <div className="project-row__links">
+            {p.demo   && <a href={p.demo}   target="_blank" rel="noopener noreferrer" className="link-btn">Demo ↗</a>}
+            {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="link-btn">GitHub ↗</a>}
           </div>
         </div>
-      </div>
-      <div className="project-row__links">
-        {p.demo   && <a href={p.demo}   target="_blank" rel="noopener noreferrer" className="link-btn">Demo ↗</a>}
-        {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="link-btn">GitHub ↗</a>}
       </div>
     </article>
   );
