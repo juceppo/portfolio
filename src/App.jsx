@@ -190,7 +190,7 @@ function ProjectRow({ project: p, index }) {
             </div>
           </div>
           <div className="project-row__links">
-            {p.demo   && <a href={p.demo}   target="_blank" rel="noopener noreferrer" className="link-btn">Demo ↗</a>}
+            {p.demo   && <a href={p.demo}   target="_blank" rel="noopener noreferrer" className="link-btn">Ver app ↗</a>}
             {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="link-btn">GitHub ↗</a>}
           </div>
         </div>
