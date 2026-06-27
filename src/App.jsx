@@ -67,6 +67,17 @@ const PROJECTS = [
   },
   {
     id: '04',
+    name: 'Lazos',
+    desc: 'Plataforma que conecta personas que necesitan ayuda con personas que pueden darla — agua, comida, medicamentos, transporte. Sin burocracia, en tiempo real. Nació durante el terremoto en Venezuela.',
+    stack: ['React', 'Next.js', 'Vercel'],
+    demo:    'https://lazosco.vercel.app',
+    github:  null,
+    img:     '/lazos.png',
+    private: true,
+    wip:     false,
+  },
+  {
+    id: '05',
     name: 'Ticksy',
     desc: 'Sistema de gestión de soporte y tickets con autenticación, notificaciones en tiempo real y despliegue en AWS.',
     stack: ['React', 'Python', 'PostgreSQL', 'WebSockets', 'AWS'],
