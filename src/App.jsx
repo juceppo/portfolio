@@ -68,8 +68,8 @@ const PROJECTS = [
   {
     id: '04',
     name: 'Lazos',
-    desc: 'Plataforma que conecta personas que necesitan ayuda con personas que pueden darla — agua, comida, medicamentos, transporte. Sin burocracia, en tiempo real. Nació durante el terremoto en Venezuela.',
-    stack: ['React', 'Next.js', 'Vercel'],
+    desc: 'Conecta personas que necesitan ayuda con personas que pueden darla — comida, agua, medicamentos, transporte. Matches en tiempo real vía WebSockets, mapa interactivo con datos de sismos de USGS, autenticación con Google y es instalable como PWA.',
+    stack: ['React', 'FastAPI', 'Supabase', 'WebSockets', 'Leaflet.js', 'PWA'],
     demo:    'https://lazosco.vercel.app',
     github:  null,
     img:     '/lazos.png',
